@@ -10,7 +10,7 @@ async function main() {
         const response = await fetch('https://demo.imagineapi.dev/items/images/', {
             method: 'POST',
             headers: {
-                'Authorization': 'Bearer GiZRBf7SZji_BYCfqMZ7PpelUNejnafb', // <<<< TODO: remember to change this
+                'Authorization': 'Bearer gxile6VOoUtmCGtPrcgbHafpoJcMwsCr', // <<<< TODO: remember to change this
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
