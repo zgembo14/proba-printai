@@ -36,7 +36,7 @@ async function main() {
           const response = await fetch(`https://demo.imagineapi.dev/items/images/${promptResponseData.data.id}`, {
             method: 'GET',
             headers: {
-                'Authorization': 'Bearer u667iLDO2Xfu0-qpv_nu82EeeDtYGlsf', // <<<< TODO: remember to change this
+                'Authorization': 'Bearer gxile6VOoUtmCGtPrcgbHafpoJcMwsCr', // <<<< TODO: remember to change this
                 'Content-Type': 'application/json'
             }
           })
