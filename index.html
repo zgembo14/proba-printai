@@ -1,24 +1,42 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unos i Prikaz Slike</title>
+    <!-- Uključivanje midjourney-api.js fajla -->
+    <script src="midjourney-api.js" defer></script>
+    <!-- Uključivanje get-image.js fajla -->
+    <script src="get-image.js" defer></script>
+</head>
+<body>
 
+    <h1>Unos i Prikaz Slike</h1>
 
-	
-    <title>Naslov Stranice</title>
-  </head>
-  <body>
+    <form id="imageForm">
+        <label for="imageInput">Unesite URL slike:</label>
+        <input type="text" id="imageInput" placeholder="Unesite URL slike...">
+        <button type="submit">Učitaj Sliku</button>
+    </form>
 
-	<h1>Hocemo li zapjevati Buraz!</h1>
-    
-     <script src="/midjourney-api.js"> </script>
+    <div id="imageContainer" style="width: 250px; height: 250px; border: 1px solid #ccc;"></div>
 
-	  
-     <script src="/get-image.js"> </script>
+    <script>
+        document.getElementById('imageForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevents the form from submitting and reloading the page
+            
+            const imageUrl = document.getElementById('imageInput').value;
+            
+            // Prikazivanje slike na stranici
+            const imageContainer = document.getElementById('imageContainer');
+            imageContainer.innerHTML = ''; // Očisti prethodni sadržaj
+            const imageElement = document.createElement('img');
+            imageElement.src = imageUrl;
+            imageElement.style.width = '100%';
+            imageElement.style.height = '100%';
+            imageContainer.appendChild(imageElement);
+        });
+    </script>
 
-	  
-     
-   
-
- 
-  </body>
+</body>
 </html>
