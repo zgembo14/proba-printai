@@ -5,45 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ImagenAPI Image Generator</title>
     <style>
-        body {
-            font-family: sans-serif;
-            margin: 20px;
-        }
-        #prompt-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        #prompt-input {
-            width: 50%;
-            padding: 10px;
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        #generate-button {
-            margin-top: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            background-color: #0095ff;
-            color: #fff;
-            cursor: pointer;
-        }
-        #generated-image-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        #generated-image {
-            max-width: 500px;
-        }
+        /* Vaš CSS stil ostaje nepromenjen */
     </style>
 </head>
 <body>
     <div id="prompt-container">
         <h1>ImagenAPI Image Generator</h1>
+        <!-- Forma koja koristi PHP -->
+        <form action="kobas.php" method="post">
+            <label for="prompt">Enter your prompt:</label>
+            <input type="text" id="prompt" name="prompt" value="--ar 3:2">
+            <input type="submit" value="Submit">
+        </form>
+        <!-- Kraj forme -->
         <input type="text" id="prompt-input" placeholder="Enter your prompt">
         <button id="generate-button">Generate Image</button>
     </div>
@@ -52,34 +26,11 @@
     </div>
 
     <script>
-        const promptInput = document.getElementById('prompt-input');
-        const generateButton = document.getElementById('generate-button');
-        const generatedImage = document.getElementById('generated-image');
-
-        generateButton.addEventListener('click', async () => {
-            const prompt = promptInput.value;
-
-            if (!prompt) {
-                alert('Please enter a prompt!');
-                return;
-            }
-
-            generatedImage.src = '';
-
-            const response = await fetch(`https://imagine-api.com/generate`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    prompt,
-                }),
-            });
-
-            const data = await response.json();
-
-            generatedImage.src = data.image_url;
-        });
+        // Vaš JavaScript ostaje nepromenjen
     </script>
+
+    <?php
+    // Vaš PHP kod ostaje nepromenjen
+    ?>
 </body>
 </html>
