@@ -4,24 +4,109 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ImagenAPI Image Generator</title>
-
-
-
-
-        
-
     <style>
         /* Vaš CSS stil ostaje nepromenjen */
     </style>
 </head>
 <body>
-<form>
-    <form action="kobas.php" method="post">
-    <label for="prompt">Enter your prompt:</label>
-    <input type="text" id="prompt" name="prompt" value="--ar 3:2">
-    <input type="submit" value="Submit">
-</form>
-    
-       
+    <div id="prompt-container">
+        <h1>ImagenAPI Image Generator</h1>
+        
+        <!-- Forma koja koristi JavaScript za slanje asinhrone zahteva -->
+        <form id="image-form">
+            <label for="prompt">Enter your prompt:</label>
+            <input type="text" id="prompt" name="prompt" value="--ar 3:2">
+            <input type="button" value="Submit" onclick="generateImage()">
+        </form>
+        <!-- Kraj forme -->
+
+        <input type="text" id="prompt-input" placeholder="Enter your prompt">
+        <button id="generate-button" onclick="generateImage()">Generate Image</button>
+    </div>
+    <div id="generated-image-container">
+        <img id="generated-image" src="" alt="Generated Image">
+    </div>
+
+    <script>
+        function generateImage() {
+            const prompt = document.getElementById('prompt').value;
+            const url = 'https://demo.imagineapi.dev/items/images/';
+
+            const data = {
+                prompt: prompt
+            };
+
+            const headers = {
+                'Authorization': 'Bearer 1Lg4eyoKsEwjDNmenB4dNRRgIW1dbTIG', // TODO: change the API key here
+                'Content-Type': 'application/json'
+            };
+
+            // Pravljenje XMLHttpRequest objekta
+            const xhr = new XMLHttpRequest();
+
+            // Postavljanje metode i URL-a zahteva
+            xhr.open('POST', url, true);
+
+            // Postavljanje zaglavlja
+            for (const key in headers) {
+                xhr.setRequestHeader(key, headers[key]);
+            }
+
+            // Pretvaranje podataka u JSON format
+            const jsonData = JSON.stringify(data);
+
+            // Slanje zahteva
+            xhr.send(jsonData);
+
+            // Postavljanje funkcije koja se poziva kada se dobije odgovor
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    const responseData = JSON.parse(xhr.responseText);
+                    const imageId = responseData.data.id;
+
+                    // Čekanje 30 sekundi
+                    setTimeout(function () {
+                        const getImageUrl = 'https://demo.imagineapi.dev/items/images/' + imageId;
+                        const getImageRequest = new XMLHttpRequest();
+
+                        getImageRequest.open('GET', getImageUrl, true);
+
+                        for (const key in headers) {
+                            getImageRequest.setRequestHeader(key, headers[key]);
+                        }
+
+                        getImageRequest.onload = function () {
+                            if (getImageRequest.status === 200) {
+                                const getImageResponse = JSON.parse(getImageRequest.responseText);
+
+                                if (getImageResponse.data && getImageResponse.data.url) {
+                                    const imageUrl = getImageResponse.data.url;
+                                    const imageUp = getImageResponse.data.upscaled_urls;
+
+                                    document.getElementById('generated-image').src = imageUrl;
+
+                                    // Prikazivanje upscaled slika
+                                    imageUp.forEach(function (up) {
+                                        const img = document.createElement('img');
+                                        img.src = up;
+                                        img.alt = 'Upscaled Image';
+                                        document.getElementById('generated-image-container').appendChild(img);
+                                    });
+                                } else {
+                                    console.error('No image URL found in the response.');
+                                }
+                            } else {
+                                console.error('Error getting image:', getImageRequest.status, getImageRequest.statusText);
+                            }
+                        };
+
+                        getImageRequest.send();
+                    }, 30000);
+                } else {
+                    console.error('Error generating image:', xhr.status, xhr.statusText);
+                }
+            };
+        }
+    </script>
 </body>
 </html>
